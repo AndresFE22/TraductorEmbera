@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Traductor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+  </head>
+  <body>
+    <div class="traductor-container">
+      <div class="traductorandconfig">
+        <div class="traductor-title">
+          <h1>Traductor</h1>
+        </div>
+        <div class="configpos">
+          <figure>
+            <img src="/static/src/usuario-de-perfil.svg" alt="usuario" data-enlace="/static/ingresar.html" id="btn-abrir">
+          </figure>
+         
+        </div>     
+      </div>    
+      <div class="form-container">
+        <form action="/" method="POST">
+          <div class="inter">
+          
+          
+          
+          <div class="places">
+            <div class="select">
+              <select name="trd" id="1">
+                <option value="1">Español</option>
+                <option value="2">Embeera</option>
+              </select>
+              
+              <input type="text" name="text1" placeholder="Idioma 1">
+            </div>
+          
+            <div class="exchange">
+              <figure>
+                <img src="/static/src/120846.svg" alt="icono" onclick="swapLanguages()">
+              </figure>
+            
+            </div>
+          
+
+            
+            <div class="select">
+              <select name="trd2" id="2">
+                <option value="1">Español</option>
+                <option value="1">Embera</option>
+              </select>
+              <input type="text" name="text2" placeholder="Idioma 2" readonly disabled>
+            </div>
+            </div>
+          </div>
+         
+          
+          <div class="but">
+            <button type="submit">Traducir</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="mi-modal" class="modal">
+        <div class="modal-contenido">
+            
+          <span class="modal-cerrar">&times;</span>
+          <iframe id="mi-iframe">
+            
+          </iframe>
+        </div>
+      </div>
+  
+    <script>
+const btnAbrir = document.getElementById('btn-abrir');
+const modal = document.getElementById('mi-modal');
+const modalCerrar = document.getElementsByClassName('modal-cerrar')[0];
+const modalIframe = document.getElementById('mi-iframe');
+
+btnAbrir.addEventListener('click', () => {
+  const enlace = btnAbrir.getAttribute('data-enlace');
+  modalIframe.setAttribute('src', enlace);
+  modal.style.display = 'block';
+});
+
+modalCerrar.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (evento) => {
+  if (evento.target == modal) {
+    modal.style.display = 'none';
+  }
+});
+
+    
+
+
+      function swapLanguages() {
+        var text1 = document.querySelector('[name="text1"]');
+        var text2 = document.querySelector('[name="text2"]');
+        var temp = text1.value;
+        text1.value = text2.value;
+        text2.value = temp;
+      }
+
+
+
+      
+    </script>
+  </body>
+</html>

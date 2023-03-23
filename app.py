@@ -82,34 +82,38 @@ def auth():
             return response
     else:
         return render_template('ingresar.html', error='Nombre de usuario o contraseña incorrectos')
-@app.route('/historial')
-@login_required
-@add_no_cache_headers
-def historial():
-    conn = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM palabras")
-    data = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    if conn.is_connected():
-        print("Conexion a la base de datos establecida correctamente")
-    return render_template('historial.html', data=data)
-
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        idiomauno = request.form['palabrauno']             
+        conn = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
+        cursor = conn.cursor()
+        consulta = "SELECT embera FROM palabras WHERE español = %s "
+        palabra = (idiomauno,)
+        cursor.execute(consulta, palabra)     
+        data = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        if conn.is_connected():
+            print("Conexion a la base de datos establecida correctamente")
+        return render_template('index.html', traduccion=data)
+    else: 
+        return render_template('index.html', traduccion="")
 
 if cnx.is_connected():
     print("Conexion a la base de datos establecida correctamente")
 
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/historial', methods=['GET', 'POST'])
+@login_required
 @add_no_cache_headers
-def index():
+def introducir():
     
     if request.method == 'POST':
 
-        text1 = request.form['text1']
-        #text2 = request.form['text2']
+        español = request.form['español']
+        embera = request.form['embera']
        # resultado = "Texto traducido" # Aquí debería estar el resultado de la traducción
     
         # Conexión a la base de datos y creación del cursor
@@ -117,8 +121,8 @@ def index():
         cursor = cnx.cursor()
 
         # Creación de la consulta para insertar la traducción en la base de datos
-        query = "INSERT INTO palabras (palabra) VALUES (%s)"
-        data = (text1,)
+        query = "INSERT INTO palabras (español, embera) VALUES (%s, %s)"
+        data = (español, embera)
 
         # Ejecución de la consulta y commit de la transacción
         cursor.execute(query, data)
@@ -129,9 +133,9 @@ def index():
         cnx.close()
         # Aquí es donde se realizaría la traducción
         # y se devolvería el resultado en una variable llamada "resultado"
-        return render_template('index.html', text1=text1)
+        return render_template('historial.html', español = 'msgespañol', embera = 'msgembera')
     else:
-        return render_template('index.html')
+        return render_template('historial.html')
     
 
 @app.route('/ingresar')

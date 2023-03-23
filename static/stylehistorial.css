@@ -1,19 +1,70 @@
-table {
-    border-collapse: collapse;
-    width: 100%;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f1f1f1;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow:  0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.title { 
+  text-align: center;
+}
+
+.input {
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+input[type="text"]:focus {
+  border: 1px ;
+}
+
+input[type="text"]:hover {
+  background-color: #45a04918;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .content {
+    flex-direction: column;
+    width: 90%;
   }
   
-  th, td {
-    text-align: left;
-    padding: 8px;
+  input[type="text"], button[type="submit"] {
+    padding: 8px 16px;
+    font-size: 14px;
   }
-  
-  th {
-    background-color: #ddd;
-    font-weight: bold;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
+}

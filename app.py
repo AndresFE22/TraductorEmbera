@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, Response, make_response
+from flask import Flask, render_template, request, redirect, url_for, flash, Response, make_response, jsonify
 import mysql.connector
 from mysql.connector import connect 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -6,6 +6,7 @@ from jinja2 import Template
 import os
 from functools import wraps
 from datetime import datetime
+
 
 app = Flask(__name__)
 
@@ -88,7 +89,8 @@ def index():
         idiomauno = request.form['palabrauno']             
         conn = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
         cursor = conn.cursor()
-        consulta = "SELECT embera FROM palabras WHERE español = %s "
+        
+        consulta = "SELECT embera FROM palabras WHERE español = (%s) UNION SELECT español FROM palabras WHERE embera = (%s)"
         palabra = (idiomauno,)
         cursor.execute(consulta, palabra)     
         data = cursor.fetchall()

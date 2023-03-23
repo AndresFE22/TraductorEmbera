@@ -6,8 +6,9 @@
     <title>Traductor</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
+
   <body>
     <div class="traductor-container">
       <div class="traductorandconfig">
@@ -75,6 +76,20 @@
       </div>
   
     <script>
+      $.ajax({
+        url: '/procesar_ruta',
+        type: 'POST',
+        data: {
+            ruta: 'ruta1',
+            datos: datos_a_enviar
+        },
+        success: function(respuesta) {
+            // código para actualizar la parte específica de la página
+        }
+    });
+
+
+
 const btnAbrir = document.getElementById('btn-abrir');
 const modal = document.getElementById('mi-modal');
 const modalCerrar = document.getElementsByClassName('modal-cerrar')[0];

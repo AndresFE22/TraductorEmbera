@@ -71,29 +71,82 @@ def auth():
         return render_template('ingresar.html', error='Nombre de usuario o contraseña incorrectos')
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    
     if request.method == 'POST':
-        
         idiom1 = request.form['trd']
         idiom2 = request.form['trd2']
-        
-        varidioma = request.form['palabrauno']             
+        varidioma = request.form['text1']             
         conn = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
         cursor = conn.cursor()
         
-        if idiom1 == 0:
-             
+        #Consulta en caso de valores iguales
+        
+        if idiom1 == '0' and idiom2 == '0':
+            consulta = "SELECT español FROM palabras WHERE español = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+            
+            return render_template('index.html', traduccion=output)
+        
+        elif idiom1 == '1' and idiom2 == '1':
+            consulta = "SELECT embera FROM palabras WHERE embera = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+            
+            return render_template('index.html', traduccion=output)
+              
+        
+        elif idiom1 == '0' and idiom2 == '1':
             consulta = "SELECT embera FROM palabras WHERE español = %s"
             palabra = (varidioma,)
             cursor.execute(consulta, palabra)     
             data = cursor.fetchall()
             cursor.close()
             conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+                
+            return render_template('index.html', traduccion=output)
         
-        if conn.is_connected():
-            print("Conexion a la base de datos establecida correctamente")
-        return render_template('index.html', traduccion=data)
-    else: 
+        elif idiom1 == '1' and idiom2 == '0':
+            consulta = "SELECT español FROM palabras WHERE embera = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)     
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+                
+            return render_template('index.html', traduccion=output)
+            
+    else:
         return render_template('index.html', traduccion="")
+
+        
+
 
 if cnx.is_connected():
     print("Conexion a la base de datos establecida correctamente")

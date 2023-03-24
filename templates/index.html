@@ -36,12 +36,12 @@
                 <option value="2">Wayuunaiki</option>
               </select>
               
-              <input type="text" name="palabrauno" placeholder="">
+              <input type="text" id="input1" name="text1" placeholder="">
             </div>
           
             <div class="exchange">
               <figure>
-                <img src="/static/src/120846.svg" alt="icono" onclick="swapLanguages()">
+                <img src="/static/src/120846.svg" alt="icono" onclick="cambiarIdiomas()">
               </figure>
             
             </div>
@@ -54,7 +54,7 @@
                 <option value="1">Embera</option>
                 <option value="2">Wayuunaiki</option>
               </select>
-              <input type="text" name="text2" readonly disabled value="{{ traduccion }}">
+              <input type="text" id="input2" name="text2" readonly disabled value="{{ traduccion }}">
             </div>
             </div>
           </div>
@@ -79,6 +79,54 @@
   
     <script>
 
+function cambiarIdiomas() {
+
+   // Obtener los valores actuales de los select
+
+   let select1 = document.getElementById('1');
+   let select2 = document.getElementById('2');
+   console.log(select1);
+    console.log(select2);
+
+
+   //Guardar los valores de los name de cada select
+
+   let name1 = select1.getAttribute('name');
+   let name2 = select2.getAttribute('name');
+
+   //Intercambiar los name de los select:
+
+   select1.setAttribute('name', name2);
+   select2.setAttribute('name', name1);
+
+   //Intermabiar valores y textos cada select
+
+   let tempValue = select1.value;
+  let tempText = select1.options[select1.selectedIndex].text;
+
+  select1.value = select2.value;
+  select1.options[select1.selectedIndex].text = select2.options[select2.selectedIndex].text;
+  select2.value = tempValue;
+  select2.options[select2.selectedIndex].text = tempText;
+  console.log(tempText)
+  console.log(tempValue)
+
+
+
+   //Actualizar los valores de los placeholders de los input
+
+   //let placeholder1 = select1.options[select1.selectedIndex].text;
+   //let placeholder2 = select2.options[select2.selectedIndex].text;
+
+   //document.getElementById('input1').setAttribute('placeholder', placeholder1);
+
+   //document.getElementById('input2').setAttribute('placeholder', placeholder2);
+
+
+
+
+}
+
 const btnAbrir = document.getElementById('btn-abrir');
 const modal = document.getElementById('mi-modal');
 const modalCerrar = document.getElementsByClassName('modal-cerrar')[0];
@@ -101,16 +149,6 @@ window.addEventListener('click', (evento) => {
 });
 
     
-
-
-      function swapLanguages() {
-        var text1 = document.querySelector('[name="text1"]');
-        var text2 = document.querySelector('[name="text2"]');
-        var temp = text1.value;
-        text1.value = text2.value;
-        text2.value = temp;
-      }
-
 
 
       

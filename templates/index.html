@@ -31,8 +31,9 @@
           <div class="places">
             <div class="select">
               <select name="trd" id="1">
-                <option value="1">Español</option>
-                <option value="2">Embeera</option>
+                <option value="0">Español</option>
+                <option value="1">Embeera</option>
+                <option value="2">Wayuunaiki</option>
               </select>
               
               <input type="text" name="palabrauno" placeholder="">
@@ -49,8 +50,9 @@
             
             <div class="select">
               <select name="trd2" id="2">
-                <option value="1">Español</option>
+                <option value="0">Español</option>
                 <option value="1">Embera</option>
+                <option value="2">Wayuunaiki</option>
               </select>
               <input type="text" name="text2" readonly disabled value="{{ traduccion }}">
             </div>
@@ -76,19 +78,6 @@
       </div>
   
     <script>
-      $.ajax({
-        url: '/procesar_ruta',
-        type: 'POST',
-        data: {
-            ruta: 'ruta1',
-            datos: datos_a_enviar
-        },
-        success: function(respuesta) {
-            // código para actualizar la parte específica de la página
-        }
-    });
-
-
 
 const btnAbrir = document.getElementById('btn-abrir');
 const modal = document.getElementById('mi-modal');

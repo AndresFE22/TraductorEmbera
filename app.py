@@ -41,22 +41,8 @@ app.config['SECRET_KEY'] = 'clave-secreta'  # Cambia esto por una clave secreta 
 
 
 
-def add_no_cache_headers(view_func):
-    @wraps(view_func)
-    def decorated_function(*args, **kwargs):
-        response = make_response(view_func(*args, **kwargs))
-        # Agregar encabezados de respuesta para evitar el almacenamiento en caché
-        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '-1'
-        # Agregar un encabezado de fecha y hora para asegurarse de que el navegador no almacene en caché la página
-        response.headers['Last-Modified'] = datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
-        return response
-    return decorated_function
-
 
 @app.route('/auth', methods=['POST'])
-@add_no_cache_headers
 def auth():
     username = request.form['username']
     password = request.form['password']
@@ -86,16 +72,23 @@ def auth():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        idiomauno = request.form['palabrauno']             
+        
+        idiom1 = request.form['trd']
+        idiom2 = request.form['trd2']
+        
+        varidioma = request.form['palabrauno']             
         conn = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
         cursor = conn.cursor()
         
-        consulta = "SELECT embera FROM palabras WHERE español = (%s) UNION SELECT español FROM palabras WHERE embera = (%s)"
-        palabra = (idiomauno,)
-        cursor.execute(consulta, palabra)     
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
+        if idiom1 == 0:
+             
+            consulta = "SELECT embera FROM palabras WHERE español = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)     
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+        
         if conn.is_connected():
             print("Conexion a la base de datos establecida correctamente")
         return render_template('index.html', traduccion=data)
@@ -109,7 +102,6 @@ if cnx.is_connected():
 
 @app.route('/historial', methods=['GET', 'POST'])
 @login_required
-@add_no_cache_headers
 def introducir():
     
     if request.method == 'POST':
@@ -140,19 +132,9 @@ def introducir():
         return render_template('historial.html')
     
 
-@app.route('/ingresar')
-@add_no_cache_headers
-def configuracion():
-    login_url = os.path.abspath('ingresar.html')
-    print(login_url)
-    return render_template('index.html', login_url=login_url)
 
 
-@login_manager.unauthorized_handler
-@add_no_cache_headers
-def unauthorized():
-    flash('Debe iniciar sesión para acceder a esta página.')
-    return redirect(url_for('ingresar'))
+
 
 
 if __name__ == '__main__':

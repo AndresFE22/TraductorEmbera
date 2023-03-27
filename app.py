@@ -94,7 +94,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
             
-            return render_template('index.html', traduccion=output)
+            return jsonify({'traduccion': output})
         
         elif idiom1 == '1' and idiom2 == '1':
             consulta = "SELECT embera FROM palabras WHERE embera = %s"
@@ -109,7 +109,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
             
-            return render_template('index.html', traduccion=output)
+            return jsonify({'traduccion': output})
               
         
         elif idiom1 == '0' and idiom2 == '1':
@@ -125,7 +125,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify({'traduccion': output})
         
         elif idiom1 == '1' and idiom2 == '0':
             consulta = "SELECT español FROM palabras WHERE embera = %s"
@@ -140,7 +140,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify({'traduccion': output})
             
     else:
         return render_template('index.html', traduccion="")

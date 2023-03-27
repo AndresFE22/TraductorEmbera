@@ -23,7 +23,7 @@
         </div>     
       </div>    
       <div class="form-container">
-        <form action="/" method="POST">
+        <form action="/" method="POST" id="translate-form">
           <div class="inter">
           
           
@@ -77,7 +77,31 @@
         </div>
       </div>
   
-    <script>
+    <script src=""https://code.jquery.com/jquery-3.6.0.min.js"">
+
+
+      $(document).ready(function() {
+        // Cuando se envía el formulario, se hace la petición AJAX
+        $('#translate-form').submit(function(event) {
+          event.preventDefault(); // Evita que se recargue la página
+          $.ajax({
+            url: '/',
+            method: 'POST',
+            data: $('#translate-form').serialize(),
+            success: function(response) {
+              console.log(response);
+              // Si la petición es exitosa, se muestra el resultado en el div correspondiente
+              $('#input2').val(response.traduccion);
+            },
+            error: function(xhr, status, error) {
+              // Si hay un error en la petición, se muestra un mensaje de error
+              $('#input2').text('Error: ' + error);
+            }
+          });
+        });
+      });
+    
+
 
 function cambiarIdiomas() {
 
@@ -101,15 +125,14 @@ function cambiarIdiomas() {
 
    //Intermabiar valores y textos cada select
 
-   let tempValue = select1.value;
-  let tempText = select1.options[select1.selectedIndex].text;
+    let tempText = select1.options[select1.selectedIndex].text;
 
-  select1.value = select2.value;
+  
   select1.options[select1.selectedIndex].text = select2.options[select2.selectedIndex].text;
-  select2.value = tempValue;
+
   select2.options[select2.selectedIndex].text = tempText;
   console.log(tempText)
-  console.log(tempValue)
+  
 
 
 

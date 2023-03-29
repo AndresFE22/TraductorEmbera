@@ -77,29 +77,9 @@
         </div>
       </div>
   
-    <script src=""https://code.jquery.com/jquery-3.6.0.min.js"">
+    <script>
 
 
-      $(document).ready(function() {
-        // Cuando se envía el formulario, se hace la petición AJAX
-        $('#translate-form').submit(function(event) {
-          event.preventDefault(); // Evita que se recargue la página
-          $.ajax({
-            url: '/',
-            method: 'POST',
-            data: $('#translate-form').serialize(),
-            success: function(response) {
-              console.log(response);
-              // Si la petición es exitosa, se muestra el resultado en el div correspondiente
-              $('#input2').val(response.traduccion);
-            },
-            error: function(xhr, status, error) {
-              // Si hay un error en la petición, se muestra un mensaje de error
-              $('#input2').text('Error: ' + error);
-            }
-          });
-        });
-      });
     
 
 
@@ -135,7 +115,6 @@ function cambiarIdiomas() {
   
 
 
-
    //Actualizar los valores de los placeholders de los input
 
    //let placeholder1 = select1.options[select1.selectedIndex].text;
@@ -144,6 +123,8 @@ function cambiarIdiomas() {
    //document.getElementById('input1').setAttribute('placeholder', placeholder1);
 
    //document.getElementById('input2').setAttribute('placeholder', placeholder2);
+
+
 
 
 

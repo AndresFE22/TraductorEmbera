@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/stylehistorial.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -12,7 +16,8 @@
         <form action="/historial" method="POST">
             <section>
                 <div class="title">
-                    <h1>Introducir palabras</h1>
+                    <h2>Introducir palabras</h2>
+                    <br>
                 </div>
             </section>
             <section>
@@ -25,6 +30,23 @@
                     </div>
                 </div>
                 <br>
+                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="successModalLabel">Mensaje de éxito</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>{{ msge }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                 <div class="submit">
                     <button type="submit">Guardar</button>
                 </div>
@@ -32,6 +54,20 @@
         </form>
     </div>
    
+    {% if showModal %}
+    <script>
+        $(document).ready(function() {
+            $('#successModal').modal('show');
+    
+            // Cerrar el modal después de 2 segundos
+            setTimeout(function() {
+              $('#successModal').modal('hide');
+            }, 1000);
+          });
+
+    </script>
+    {% endif %}
+
 
 </body>
 </html>

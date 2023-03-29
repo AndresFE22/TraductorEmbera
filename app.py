@@ -10,13 +10,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-
-#with open('historial.html', 'r') as file:
- #   template = Template(file.read())
-
-#html = template.render(data=data)
-
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -29,7 +22,7 @@ class User(UserMixin):
 def load_user(user_id):
     return User(user_id)
 
-
+#Conectar a base de datos
 cnx = connect (
     host ="localhost",
     user ="root",
@@ -37,21 +30,18 @@ cnx = connect (
     database ="traductor"
 )
 
-app.config['SECRET_KEY'] = 'clave-secreta'  # Cambia esto por una clave secreta fuerte
+if cnx.is_connected():
+    print("Conexion a la base de datos establecida correctamente")
 
+app.config['SECRET_KEY'] = 'clave-secreta'  # Cambia esto por una clave secreta fuerte
 
 
 
 @app.route('/auth', methods=['POST'])
 def auth():
+    #Extracción de datos de usuario
     username = request.form['username']
     password = request.form['password']
-
-    # Aquí puedes hacer la consulta a la base de datos para verificar si el usuario y la contraseña son correctos
-    # Por ejemplo:
-    #cursor = cnx.cursor()
-    #cursor.execute('SELECT usuario FROM users WHERE username=%s AND password=%s', (username, password))
-    #user_id = cursor.fetchone()
 
     # Si el usuario y la contraseña son correctos, redirige a la página de inicio
     # De lo contrario, muestra un mensaje de error en la página de login
@@ -69,6 +59,9 @@ def auth():
             return response
     else:
         return render_template('ingresar.html', error='Nombre de usuario o contraseña incorrectos')
+
+
+#Ruta de inicio
 @app.route('/', methods=['GET', 'POST'])
 def index():
     
@@ -94,7 +87,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
             
-            return jsonify({'traduccion': output})
+            return render_template('index.html', traduccion=output)
         
         elif idiom1 == '1' and idiom2 == '1':
             consulta = "SELECT embera FROM palabras WHERE embera = %s"
@@ -109,8 +102,9 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
             
-            return jsonify({'traduccion': output})
-              
+            return render_template('index.html', traduccion=output)
+        
+        #Consulta de diferentes idioma      
         
         elif idiom1 == '0' and idiom2 == '1':
             consulta = "SELECT embera FROM palabras WHERE español = %s"
@@ -125,7 +119,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return jsonify({'traduccion': output})
+            return render_template('index.html', traduccion=output)
         
         elif idiom1 == '1' and idiom2 == '0':
             consulta = "SELECT español FROM palabras WHERE embera = %s"
@@ -140,7 +134,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return jsonify({'traduccion': output})
+            return render_template('index.html', traduccion=output)
             
     else:
         return render_template('index.html', traduccion="")
@@ -148,10 +142,9 @@ def index():
         
 
 
-if cnx.is_connected():
-    print("Conexion a la base de datos establecida correctamente")
 
 
+#Ruta de introducir palabras
 
 @app.route('/historial', methods=['GET', 'POST'])
 @login_required
@@ -178,11 +171,15 @@ def introducir():
         # Cierre del cursor y la conexión
         cursor.close()
         cnx.close()
-        # Aquí es donde se realizaría la traducción
-        # y se devolvería el resultado en una variable llamada "resultado"
-        return render_template('historial.html', español = 'msgespañol', embera = 'msgembera')
+        
+        #Mostrar mensaje de éxito 
+        
+        msge = f"{español}' y '{embera}' guardadas correctamente"
+        
+        
+        return render_template('historial.html', showModal=True, msge=msge)
     else:
-        return render_template('historial.html')
+        return render_template('historial.html', showModal=False )
     
 
 

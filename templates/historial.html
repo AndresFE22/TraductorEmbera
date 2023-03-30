@@ -23,12 +23,17 @@
             <section>
                 <div class="places">
                     <div class="input">
-                        <input type="text" name="español" placeholder="Español">
+                        <input type="text" name="español" placeholder="Agregue palabra en español" required>
                     </div>
                     <div class="input">
-                        <input type="text" name="embera" placeholder="Embera">
+                        <input type="text" name="embera" placeholder="Agregue palabra en embera" required>
+                    </div>
+                    <div class="input">
+                      <input type="text" name="wayuu" placeholder="Agregue palabra en wayuunaiky"required>
                     </div>
                 </div>
+
+
                 <br>
                 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -45,13 +50,43 @@
                       </div>
                     </div>
                   </div>
-
-
                 <div class="submit">
                     <button type="submit">Guardar</button>
                 </div>
+  
+                 
+                </div>      
+      
+              </div>
             </section>
         </form>
+        <table>
+          <thead>
+            <tr>
+              <th>Español</th>
+              <th>Embera</th>
+              <th>Wayuu</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for resultado in resultado %}
+            <tr>
+              <td>{{ resultado[0] }}</td>
+              <td>{{ resultado[1] }}</td>
+              <td>{{ resultado[2] }}</td>
+              <td>
+                <a href="/eliminar/{{ resultado[3] }}">Eliminar</a>
+                <a href="/editar/{{ resultado[3] }}">Editar</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      <form action="/table" method="post">
+          <button type="submit">Mostrar palabras</button>
+      </form>
     </div>
    
     {% if showModal %}

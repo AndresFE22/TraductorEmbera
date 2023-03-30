@@ -39,10 +39,10 @@ app.config['SECRET_KEY'] = 'clave-secreta'  # Cambia esto por una clave secreta 
 
 @app.route('/auth', methods=['POST'])
 def auth():
+   
     #Extracción de datos de usuario
     username = request.form['username']
     password = request.form['password']
-
     # Si el usuario y la contraseña son correctos, redirige a la página de inicio
     # De lo contrario, muestra un mensaje de error en la página de login
     if username == 'user' and password == 'clave':
@@ -52,11 +52,7 @@ def auth():
             user = User(id=1)  # crear un objeto de usuario
             login_user(user)  # iniciar sesión al usuario
             # Agregar encabezados de respuesta para evitar el almacenamiento en caché
-            response = make_response(redirect('/historial'))
-            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-            response.headers['Pragma'] = 'no-cache'
-            response.headers['Expires'] = '-1'
-            return response
+            
     else:
         return render_template('ingresar.html', error='Nombre de usuario o contraseña incorrectos')
 
@@ -104,6 +100,21 @@ def index():
             
             return render_template('index.html', traduccion=output)
         
+        elif idiom1 == '2' and idiom2 == '2':
+            consulta = "SELECT wayuu FROM palabras WHERE wayuu = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+            
+            return render_template('index.html', traduccion=output)
+        
         #Consulta de diferentes idioma      
         
         elif idiom1 == '0' and idiom2 == '1':
@@ -135,13 +146,82 @@ def index():
                 output += palabra[0] + ' '
                 
             return render_template('index.html', traduccion=output)
+        
+        elif idiom1 == '0' and idiom2 == '2':
+            consulta = "SELECT wayuu FROM palabras WHERE español = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)     
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+                
+            return render_template('index.html', traduccion=output)
+        
+        elif idiom1 == '2' and idiom2 == '0':
+            consulta = "SELECT español FROM palabras WHERE wayuu = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)     
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+                
+            return render_template('index.html', traduccion=output)
+        
+        elif idiom1 == '2' and idiom2 == '1':
+            consulta = "SELECT embera FROM palabras WHERE wayuu = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)     
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+                
+            return render_template('index.html', traduccion=output)
+        
+        elif idiom1 == '1' and idiom2 == '2':
+            consulta = "SELECT wayuu FROM palabras WHERE embera = %s"
+            palabra = (varidioma,)
+            cursor.execute(consulta, palabra)     
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            
+            # Construir una cadena de texto amigable para el usuario final
+            output = ''
+            for palabra in data:
+                output += palabra[0] + ' '
+                
+            return render_template('index.html', traduccion=output)
+            
+            
+            
             
     else:
         return render_template('index.html', traduccion="")
 
         
 
+#Consulta para mostrar la tabla
 
+
+#consulta para eliminar
+
+   
 
 
 #Ruta de introducir palabras
@@ -154,15 +234,16 @@ def introducir():
 
         español = request.form['español']
         embera = request.form['embera']
+        wayuu = request.form['wayuu']
        # resultado = "Texto traducido" # Aquí debería estar el resultado de la traducción
     
         # Conexión a la base de datos y creación del cursor
-        cnx = mysql.connector.connect(user='root', password='', host='127.0.0.1', database='traductor')
+        cnx = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
         cursor = cnx.cursor()
 
         # Creación de la consulta para insertar la traducción en la base de datos
-        query = "INSERT INTO palabras (español, embera) VALUES (%s, %s)"
-        data = (español, embera)
+        query = "INSERT INTO palabras (español, embera, wayuu) VALUES (%s, %s, %s)"
+        data = (español, embera, wayuu)
 
         # Ejecución de la consulta y commit de la transacción
         cursor.execute(query, data)
@@ -174,7 +255,7 @@ def introducir():
         
         #Mostrar mensaje de éxito 
         
-        msge = f"{español}' y '{embera}' guardadas correctamente"
+        msge = f"{español}', '{embera}' guardadas correctamente"
         
         
         return render_template('historial.html', showModal=True, msge=msge)
@@ -182,6 +263,13 @@ def introducir():
         return render_template('historial.html', showModal=False )
     
 
+@app.route('/table', methods=['POST'])
+def table():
+    cnx = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
+    cursor = cnx.cursor()
+    cursor.execute("SELECT * FROM palabras")
+    resultado = cursor.fetchall()
+    return render_template('historial.html', resultado=resultado)
 
 
 

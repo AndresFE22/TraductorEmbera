@@ -23,7 +23,7 @@
         </div>     
       </div>    
       <div class="form-container">
-        <form action="/" method="POST" id="translate-form">
+        <form action="/" method="POST" id="translate-form" target="_self">
           <div class="inter">
           
           
@@ -54,18 +54,19 @@
                 <option value="1">Embera</option>
                 <option value="2">Wayuunaiki</option>
               </select>
-              <input type="text" id="input2" name="text2" readonly disabled value="{{ traduccion }}">
+              <input  type="text" id="input2" name="text2" readonly disabled value="{{ traduccion }}">
             </div>
             </div>
           </div>
-         
-          
+      
           <div class="but">
-            <button type="submit">Traducir</button>
+            <button type="submit" id="traducirBtn">Traducir</button>
           </div>
         </form>
       </div>
     </div>
+
+    <div id="resultado"></div>
 
     <div id="mi-modal" class="modal">
         <div class="modal-contenido">
@@ -76,13 +77,21 @@
           </iframe>
         </div>
       </div>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js" integrity="sha512-D1edJHbgs+I/gjKfP+oJZlIS+1g67KjGQ9JtE2nL+uP5Fq+7zhOD8Jp5d7V5xKsgav1+V9XWY4F0qlzsDhRk1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script type="text/javascript" charset="utf-8">
+        
+             var socket = io.connect('http://' + document.domain + ':' + location.port);
+            
+            // Recibir el evento 'traduccion' y actualizar el contenido de un elemento HTML con el resultado
+      socket.on('traduccion', function(data) {
+      document.getElementById('resultado').innerHTML = data;
+  });
+            </script>
   
-    <script>
-
-
+      <script>
+   
+   
     
-
-
 function cambiarIdiomas() {
 
    // Obtener los valores actuales de los select

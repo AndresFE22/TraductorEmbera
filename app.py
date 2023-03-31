@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, Response, make_response, jsonify
 import mysql.connector
+from flask_socketio import SocketIO, emit
 from mysql.connector import connect 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from jinja2 import Template
@@ -8,10 +9,15 @@ from functools import wraps
 from datetime import datetime
 
 
-app = Flask(__name__)
 
+app = Flask(__name__)
+socketio = SocketIO(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+
+
 
 class User(UserMixin):
     def __init__(self, id):
@@ -57,14 +63,26 @@ def auth():
         return render_template('ingresar.html', error='Nombre de usuario o contraseña incorrectos')
 
 
+
+
+@socketio.on('connect', namespace='/')
+def test_connect():
+    print('Cliente conectado')
+    
+    
+
 #Ruta de inicio
+@socketio.on('traduccion')
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    
     
     if request.method == 'POST':
         idiom1 = request.form['trd']
         idiom2 = request.form['trd2']
-        varidioma = request.form['text1']             
+        
+        varidioma = request.form['text1'] 
+                    
         conn = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
         cursor = conn.cursor()
         
@@ -82,8 +100,13 @@ def index():
             output = ''
             for palabra in data:
                 output += palabra[0] + ' '
+                
+            # Emitir el evento de WebSocket con la variable 'traduccion'
+            emit('traduccion', output)
             
-            return render_template('index.html', traduccion=output)
+            # Retornar una respuesta vacía para evitar la recarga de la página
+            return ''
+    
         
         elif idiom1 == '1' and idiom2 == '1':
             consulta = "SELECT embera FROM palabras WHERE embera = %s"
@@ -124,6 +147,8 @@ def index():
             data = cursor.fetchall()
             cursor.close()
             conn.close()
+            
+            
             
             # Construir una cadena de texto amigable para el usuario final
             output = ''
@@ -212,8 +237,10 @@ def index():
             
             
     else:
+    
         return render_template('index.html', traduccion="")
 
+    return render_template('index.html')
         
 
 #Consulta para mostrar la tabla

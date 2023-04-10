@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teclado</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"></script>
+    <style>
+		/* Estilo para los botones del teclado */
+		.key {
+			display: inline-block;
+			border: 1px solid black;
+			padding: 5px;
+			margin: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			border-radius: 5px;
+		}
+
+		/* Estilo para el contenedor del teclado */
+		.keyboard {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			background-color: #f1f1f1;
+			padding: 10px;
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body>
+    	<!-- Campo de texto para la entrada del usuario -->
+	<input type="text" id="input" name="input">
+
+	<!-- Contenedor para el teclado virtual -->
+	<div class="keyboard">
+		<!-- Botones para cada letra del teclado virtual -->
+		<div class="key" onclick="writeCharacter('A')">A</div>
+		<div class="key" onclick="writeCharacter('B')">B</div>
+		<div class="key" onclick="writeCharacter('C')">C</div>
+		<div class="key" onclick="writeCharacter('D')">D</div>
+		<div class="key" onclick="writeCharacter('E')">E</div>
+		<div class="key" onclick="writeCharacter('F')">F</div>
+		<div class="key" onclick="writeCharacter('G')">G</div>
+		<div class="key" onclick="writeCharacter('H')">H</div>
+		<div class="key" onclick="writeCharacter('I')">I</div>
+		<div class="key" onclick="writeCharacter('J')">J</div>
+		<div class="key" onclick="writeCharacter('K')">K</div>
+		<div class="key" onclick="writeCharacter('L')">L</div>
+		<div class="key" onclick="writeCharacter('M')">M</div>
+		<div class="key" onclick="writeCharacter('N')">N</div>
+		<div class="key" onclick="writeCharacter('O')">O</div>
+		<div class="key" onclick="writeCharacter('P')">P</div>
+		<div class="key" onclick="writeCharacter('Q')">Q</div>
+		<div class="key" onclick="writeCharacter('R')">R</div>
+		<div class="key" onclick="writeCharacter('S')">S</div>
+		<div class="key" onclick="writeCharacter('T')">T</div>
+		<div class="key" onclick="writeCharacter('U')">U</div>
+		<div class="key" onclick="writeCharacter('V')">V</div>
+		<div class="key" onclick="writeCharacter('W')">W</div>
+		<div class="key" onclick="writeCharacter('X')">X</div>
+    
+
+        <script>function writeCharacter(char) {
+            // Obtenemos el valor actual del input
+            let input = $("#input").val();
+            
+            // Añadimos el carácter seleccionado al final del input
+            input += char;
+            
+            // Actualizamos el valor del input con el nuevo texto
+            $("#input").val(input);
+          }</script>
+</body>
+</html>

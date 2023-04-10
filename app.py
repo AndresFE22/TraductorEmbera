@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, Response, make_response, jsonify
 import mysql.connector
-from flask_socketio import SocketIO, emit
 from mysql.connector import connect 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from jinja2 import Template
@@ -11,7 +10,7 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -65,14 +64,10 @@ def auth():
 
 
 
-@socketio.on('connect', namespace='/')
-def test_connect():
-    print('Cliente conectado')
-    
     
 
 #Ruta de inicio
-@socketio.on('traduccion')
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     
@@ -99,13 +94,9 @@ def index():
             # Construir una cadena de texto amigable para el usuario final
             output = ''
             for palabra in data:
-                output += palabra[0] + ' '
-                
-            # Emitir el evento de WebSocket con la variable 'traduccion'
-            emit('traduccion', output)
-            
-            # Retornar una respuesta vacía para evitar la recarga de la página
-            return ''
+                output += palabra[0] + ' '            
+       
+            return jsonify(output)
     
         
         elif idiom1 == '1' and idiom2 == '1':
@@ -121,7 +112,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
             
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
         
         elif idiom1 == '2' and idiom2 == '2':
             consulta = "SELECT wayuu FROM palabras WHERE wayuu = %s"
@@ -136,7 +127,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
             
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
         
         #Consulta de diferentes idioma      
         
@@ -155,7 +146,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
         
         elif idiom1 == '1' and idiom2 == '0':
             consulta = "SELECT español FROM palabras WHERE embera = %s"
@@ -170,7 +161,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
         
         elif idiom1 == '0' and idiom2 == '2':
             consulta = "SELECT wayuu FROM palabras WHERE español = %s"
@@ -186,7 +177,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
         
         elif idiom1 == '2' and idiom2 == '0':
             consulta = "SELECT español FROM palabras WHERE wayuu = %s"
@@ -201,7 +192,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
         
         elif idiom1 == '2' and idiom2 == '1':
             consulta = "SELECT embera FROM palabras WHERE wayuu = %s"
@@ -216,7 +207,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
         
         elif idiom1 == '1' and idiom2 == '2':
             consulta = "SELECT wayuu FROM palabras WHERE embera = %s"
@@ -231,7 +222,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return render_template('index.html', traduccion=output)
+            return jsonify(output)
             
             
             
@@ -243,10 +234,6 @@ def index():
     return render_template('index.html')
         
 
-#Consulta para mostrar la tabla
-
-
-#consulta para eliminar
 
    
 

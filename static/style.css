@@ -5,6 +5,7 @@
   }
   
   body {
+    position: relative;
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     height: 100%;
@@ -12,6 +13,7 @@
   }
   
   .traductor-container {
+    position: relative;
     width: 100%;
     height: 100%;
     margin: 0 auto;
@@ -19,9 +21,9 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
+    z-index: 1;
   }
-  
-  
+ 
   
   .traductorandconfig {
     display: grid;
@@ -130,17 +132,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     width: 100%;
+    height: auto;
   }
   
   .places input[type="text"] {
     width: 100%;
     padding: 10px;
-    font-size: 32px;
+    font-size: 35px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    height: 100%;
+    height: auto;
+    overflow: hidden;
+    resize: vertical !important;
   }
   
   
@@ -150,7 +155,7 @@
   }
   
   .but button[type="submit"] {
-    width: 100%;
+    width: 20%;
     padding: 10px;
     font-size: 16px;
     color: #fff;
@@ -162,6 +167,12 @@
   
   .but button[type="submit"]:hover {
     background-color: #2655c6;
+  }
+
+  .but {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .change {
@@ -259,6 +270,37 @@
     filter: brightness(1) saturate(100%) hue-rotate(0deg);
   }
 
+
+  .botones {
+    display: flex;
+    justify-content: center; /* Centra los elementos */
+    height: 50%;
+    width: 60%;
+  }
+  
+ .vacio {
+  display: none;
+
+  width: 100%;
+ }
+
+  
+  .tecladomovil {
+    display: none;
+
+    height: auto;
+    width: 100%;
+    
+     /* Empuja el div "tecladomovil" hacia la derecha */
+  }
+
+  .tecla {
+    margin-left: 70%;
+  }
+
+  
+
+ 
   
   @media only screen and (max-width: 600px) {
   
@@ -292,11 +334,77 @@
       width: 100%;
       margin-bottom: 10px;
     }
+
+    .teclado img {
+      display: none;
+    }
+
+    .botones {
+      display: flex;
+      justify-content: center; /* Centra los elementos */
+      height: 40%;
+      width: 100%;
+    }
+    
+   .vacio {
+    display: block;
+    width: 100%;
+   }
+  
+    
+    .tecladomovil {
+      display: block;
+      height: auto;
+      width: 100%;
+      filter: contrast(0%);
+    
+       
+    }
+    .tecladomovil img {
+      cursor: pointer;
+    }
   }
   
   
+ 
+
+
        /* Estilos para pantalla pequeña */
       @media only screen and (max-width: 600px) {
+
+       
+        .teclado img {
+          display: none;
+        }
+
+        .botones {
+          display: flex;
+          justify-content: center; /* Centra los elementos */
+          height: 40%;
+          width: 100%;
+        }
+        
+       .vacio {
+        display: block;
+        width: 100%;
+       }
+      
+        
+        .tecladomovil {
+          display: block;
+          height: auto;
+          width: 100%;
+          
+           /* Empuja el div "tecladomovil" hacia la derecha */
+        }
+      
+        .tecla {
+          margin-left: 70%;
+        }
+
+        .tecla:hover{
+          transform: scale(1.1);
+        }
 
         .modal {
           
@@ -323,17 +431,18 @@
           height: 70%;
           overflow: hidden;
           border-radius: 20px;
+                  
           
-
-
         }
 
+       
+
         .exchange img {
-          width: 80%;
+          width: 100%;
           height: 100%;
         }
         .exchange figure {
-          width: 50%;
+          width: 100%;
         }
 
 
@@ -382,7 +491,22 @@
           border-radius: 5px;
           border: none;
           cursor: pointer;
+          width: 100%;
         }
+        
+        .but button[type="submit"] {
+          width: 100%;
+          padding: 10px;
+          font-size: 16px;
+          color: #fff;
+          background-color: #3b9eff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+
+
        }
 
 
@@ -409,6 +533,84 @@
         transform: scale(1.1);
         transition: all 0.4s 
        }
+
+       .teclado {
+     
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 1%;
+        width: 2.4%;
+        filter: contrast(0%);
+       }
+
+       .teclado img {
+        cursor: pointer;
+       }
+
+       .teclado img:hover{
+        transform: scale(1.1);
+       }
+
+
+  
+
+       /* Estilo para los botones del teclado */
+		.key {
+			display: inline-block;
+			border: 1px solid black;
+			padding: 5px;
+			margin: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			border-radius: 5px;
+		}
+
+		/* Estilo para el contenedor del teclado */
+		.keyboard {
+      position: absolute;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			background-color: #d6d6d6;
+			padding: 10px;
+			border-radius: 10px;
+      top: 50%;
+      left: 0%;
+      z-index: 2;
+      width: 30%;
+      
+		}
+
+    .modalteclado {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+    
+    .modalteclado.mostrar {
+      display: block;
+    }
+    
+    .modal-contenidotecla {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      width: 80%;
+      max-width: 500px;
+    }
+    
+
+   
+
   /* body {
       font-family: sans-serif;
       margin: 0;

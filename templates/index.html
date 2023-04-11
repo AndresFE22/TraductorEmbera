@@ -35,7 +35,7 @@
               
               <div class="places">
                 <div class="select">
-                  <select name="trd" id="1" onchange="cancelarFuncion()">
+                  <select name="trd" id="1">
                     <option value="0">Español</option>
                     <option value="1">Embera</option>
                     <option value="2">Wayuunaiki</option>
@@ -66,7 +66,7 @@
 
                 
                 <div class="select">
-                  <select name="trd2" id="2" onchange="seleccionarIdioma()">
+                  <select name="trd2" id="2">
                     <option value="0">Español</option>
                     <option value="1">Embera</option>
                     <option value="2">Wayuunaiki</option>
@@ -177,6 +177,12 @@
 
       </script>
       <script>
+
+function cambiarValoresSelect(select1, select2) {
+  let temp = select1.value;
+  select1.value = select2.value;
+  select2.value = temp;
+        }
   
     
 function cambiarIdiomas() {
@@ -184,25 +190,25 @@ function cambiarIdiomas() {
   
      // Obtener los valores actuales de los select
 
-   let select1 = document.getElementById('1');
-   let select2 = document.getElementById('2');
-   console.log(select1);
-    console.log(select2);
+    const select1 = document.getElementById("1");
+    const select2 = document.getElementById("2");
+
+     //seleccionar el value actual de los select
+   
+    const value1 = select1.value;
+    const value2 = select2.value;
+
+    //intercambiar el value de los select
+
+    select1.value = value2;
+    select2.value = value1;
     
-     //Guardar los valores de los name de cada select
-
-   let name1 = select1.getAttribute('name');
-   let name2 = select2.getAttribute('name');
-
-
+    console.log(value1)
+    console.log(value2)
   
-   //Intercambiar los name de los select:
-
-   select1.setAttribute('name', name2);
-   select2.setAttribute('name', name1);
 
 
-   // Restaurar el estado de la función activa
+ 
    
   
 

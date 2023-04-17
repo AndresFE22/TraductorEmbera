@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/stylehistorial.css">
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -13,54 +14,61 @@
 </head>
 <body>
     <div class="content">
-        <form action="/historial" method="POST">
-            <section>
-                <div class="title">
-                    <h2>Introducir palabras</h2>
-                    <br>
-                </div>
-            </section>
-            <section>
-                <div class="places">
-                    <div class="input">
-                        <input type="text" name="español" placeholder="Agregue palabra en español" required>
-                    </div>
-                    <div class="input">
-                        <input type="text" name="embera" placeholder="Agregue palabra en embera" required>
-                    </div>
-                    <div class="input">
-                      <input type="text" name="wayuu" placeholder="Agregue palabra en wayuunaiky"required>
-                    </div>
-                </div>
+      <div class="word">
+
+        <form action="/historial" method="POST" id="form">
+          <section>
+              <div class="title">
+                  <h2>Introducir palabras</h2>
+                  <br>
+              </div>
+          </section>
+          <section>
+              <div class="places">
+                  <div class="input">
+                      <input type="text" name="español" placeholder="Agregue palabra en español" required>
+                  </div>
+                  <div class="input">
+                      <input type="text" name="embera" placeholder="Agregue palabra en embera" required>
+                  </div>
+                  <div class="input">
+                    <input type="text" name="wayuu" placeholder="Agregue palabra en wayuunaiky"required>
+                  </div>
+              </div>
 
 
-                <br>
-                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="successModalLabel">Mensaje de éxito</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p>{{ msge }}</p>
-                        </div>
+              <br>
+              <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="successModalLabel">Mensaje de éxito</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>{{ msge }}</p>
                       </div>
                     </div>
                   </div>
-                <div class="submit">
-                    <button type="submit">Guardar</button>
                 </div>
-  
-                 
-                </div>      
-      
+              <div class="submit">
+                  <button type="submit">Guardar</button>
               </div>
-            </section>
-        </form>
-        <table>
+
+               
+              </div>      
+    
+            </div>
+          </section>
+     
+
+      </div>
+
+      <div class="tables">
+
+        <table id="resultado">
           <thead>
             <tr>
               <th>Español</th>
@@ -84,9 +92,10 @@
           </tbody>
         </table>
 
-      <form action="/table" method="post">
-          <button type="submit">Mostrar palabras</button>
       </form>
+
+      </div>
+      
     </div>
    
     {% if showModal %}
@@ -103,6 +112,6 @@
     </script>
     {% endif %}
 
-
+<script></script>
 </body>
 </html>

@@ -6,7 +6,10 @@
   
   body {
     position: relative;
-    background-color: #f0f0f0;
+    background-image: url(/static/src/indigena2.jpg);
+    background-size:cover;
+    background-repeat: no-repeat;
+    opacity: 1;
     font-family: Arial, sans-serif;
     height: 100%;
     width: 100vw;
@@ -18,8 +21,8 @@
     height: 100%;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #ffffff00;
+    border: 1px solid #dddddd00;
     border-radius: 4px;
     z-index: 1;
   }
@@ -85,9 +88,11 @@
   }
 
   .places select{
+    font-size: 20pt;
     width: 50%;
     margin-top: 5%;
     margin-bottom: 5%;
+    
   
   }
 
@@ -96,7 +101,10 @@
     display: inline-block;
     margin-bottom: 15px;
     width: 100%;
+
 }    .select select {
+        
+        
         font-family: 'Arial';
         display: inline-block;
         width: 100%;
@@ -105,7 +113,7 @@
         outline: 0;
         border: 0px solid #000000;
         border-radius: 12px;
-        background: #e6e6e6;
+        background: #ffffff83;
         color: #4a4747;
         appearance: none;
         -webkit-appearance: none;
@@ -138,10 +146,11 @@
   }
   
   .places input[type="text"] {
+    background-color: white;
     width: 100%;
     padding: 10px;
     font-size: 35px;
-    border: 1px solid #ddd;
+    border: 1px solid #ffffff;
     border-radius: 4px;
     height: auto;
     overflow: hidden;
@@ -151,7 +160,7 @@
   
   .places input[type="text"]:focus {
     outline: none;
-    border-color: #3b9eff;
+    border-color: #c99300;
   }
   
   .but button[type="submit"] {
@@ -159,14 +168,14 @@
     padding: 10px;
     font-size: 16px;
     color: #fff;
-    background-color: #3b9eff;
+    background-color: #c99300;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
   .but button[type="submit"]:hover {
-    background-color: #2655c6;
+    background-color: #ffbb00;
   }
 
   .but {
@@ -303,8 +312,12 @@
  
   
   @media only screen and (max-width: 600px) {
+
+    /*El software recibira una pregunta de investigación y va a predecir el tipo de metodología que presenta dicha pregunta, a partir de ahi, brindara los parametros necesario para realizar esa metodología predecida, y así generar la ruta de investigación 
+  */
+    
   
-  
+   
   .form-container {
     max-width: 100%;
     padding: 0 20px;
@@ -371,7 +384,9 @@
 
        /* Estilos para pantalla pequeña */
       @media only screen and (max-width: 600px) {
-
+        body {
+          background-size:auto;
+        }
        
         .teclado img {
           display: none;
@@ -499,7 +514,7 @@
           padding: 10px;
           font-size: 16px;
           color: #fff;
-          background-color: #3b9eff;
+          background-color: #c99300;
           border: none;
           border-radius: 4px;
           cursor: pointer;
@@ -528,8 +543,16 @@
        
        }
 
+
+       .exchange img {
+             
+        filter: hue-rotate(200deg);
+  
+      }
+
+
        .exchange figure:hover {
-        background-color: #eeeeee;
+        background-color: #ffffff;
         transform: scale(1.1);
         transition: all 0.4s 
        }

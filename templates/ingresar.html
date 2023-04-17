@@ -7,27 +7,34 @@
     <link rel="stylesheet" href="/static/stylelogin.css">
     <title>Document</title>
 </head>
-<body>
-    <div class="title"> 
-        <center> <h1>AUTENTICACIÓN</h1> </center>
-    </div>
-        <div class="login-container">
-            <form action="/auth" method="POST">
-                <input type="text" name="username" placeholder="Nombre de usuario" required>
-                <input type="password" name="password" placeholder="Contraseña" required>
-    <br>
-    <br><div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>{{ error }}</p>
-        </div>
+<body>    
+<div class="containerblack">
+  <div class="login-container">
+    <div class="container">
+        <div class="title"> 
+          <center> <h1>AUTENTICACIÓN</h1> </center>
       </div>
-    <br>
-    <br>
-            <button type="submit">Iniciar sesión</button>
-            </form>
-        </div>
+    <form action="/auth" method="POST">
+        <input type="text" name="username" placeholder="Nombre de usuario" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+<br>
+<br><div id="myModal" class="modal">
+<!-- Modal content -->
+<div class="modal-content">
+<span class="close">&times;</span>
+<p>{{ error }}</p>
+</div>
+</div>
+<br>
+<br>
+    <button type="submit">Iniciar sesión</button>
+    </form>
+</div>
+</div>
+
+</div>
+     
+      
         <script>
             // Obtener el modal
 var modal = document.getElementById("myModal");

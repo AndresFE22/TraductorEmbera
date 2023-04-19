@@ -290,6 +290,32 @@ def introducir():
         return render_template('historial.html', showModal=False)
     
 
+
+
+@app.route('/eliminar/<int:id>', methods=['POST'])
+def eliminar_palabra(id):
+    cnx = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
+    cursor = cnx.cursor()
+
+    # Creación de la consulta para eliminar la palabra de la base de datos
+    query = "DELETE FROM palabras WHERE id = %s"
+    data = (id,)
+
+    # Ejecución de la consulta y commit de la transacción
+    cursor.execute(query, data)
+    cnx.commit()
+
+    # Cierre del cursor y la conexión
+    cursor.close()
+    cnx.close()       
+    
+    return render_template('historial.html')
+
+
+
+
+
+
 @app.route('/table', methods=['POST'])
 def table():
     cnx = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')

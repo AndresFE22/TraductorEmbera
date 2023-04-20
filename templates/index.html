@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Traductor</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
       integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
@@ -55,7 +56,7 @@
                       <img src="/static/src/120846.svg" alt="icono" onclick="cambiarIdiomas()">
                     </figure>
                   </div>
-                  <div class="tecladomovil">
+                  <div class="tecladomovil" id="open-keyboard">
                     <div class="tecla">
                       <figure>
                         <img src="/static/src/keyboard_119981.svg" alt="teclado">
@@ -81,7 +82,7 @@
               </div>
           
 
-              <div class="teclado" id="mostrar-modal">
+              <div class="teclado" id="open-keyboard2">
                 <figure>
                   <img src="/static/src/keyboard_119981.svg" alt="teclado" >
                 </figure>
@@ -99,40 +100,47 @@
       </div>
     </div>
 
-     
-    <div class="modalteclado">
-      <div class="modal-contenidotecla">
-        <div class="keyboard">
-          <!-- Botones para cada letra del teclado virtual -->
-          <div class="key" onclick="writeCharacter('A')">A</div>
-          <div class="key" onclick="writeCharacter('B')">B</div>
-          <div class="key" onclick="writeCharacter('C')">C</div>
-          <div class="key" onclick="writeCharacter('D')">D</div>
-          <div class="key" onclick="writeCharacter('E')">E</div>
-          <div class="key" onclick="writeCharacter('F')">F</div>
-          <div class="key" onclick="writeCharacter('G')">G</div>
-          <div class="key" onclick="writeCharacter('H')">H</div>
-          <div class="key" onclick="writeCharacter('I')">I</div>
-          <div class="key" onclick="writeCharacter('J')">J</div>
-          <div class="key" onclick="writeCharacter('K')">K</div>
-          <div class="key" onclick="writeCharacter('L')">L</div>
-          <div class="key" onclick="writeCharacter('M')">M</div>
-          <div class="key" onclick="writeCharacter('N')">N</div>
-          <div class="key" onclick="writeCharacter('O')">O</div>
-          <div class="key" onclick="writeCharacter('P')">P</div>
-          <div class="key" onclick="writeCharacter('Q')">Q</div>
-          <div class="key" onclick="writeCharacter('R')">R</div>
-          <div class="key" onclick="writeCharacter('S')">S</div>
-          <div class="key" onclick="writeCharacter('T')">T</div>
-          <div class="key" onclick="writeCharacter('U')">U</div>
-          <div class="key" onclick="writeCharacter('V')">V</div>
-          <div class="key" onclick="writeCharacter('W')">W</div>
-          <div class="key" onclick="writeCharacter('X')">X</div>     
-      
-    </div>
-       
-      </div>
-    </div>
+
+<div id="keyboard">
+  <button id="close-keyboard"><i class="fa fa-times"></i></button>
+  <div class="keyboard-row">
+    <button class="key" value="Q">Q</button>
+    <button class="key" value="W">W</button>
+    <button class="key" value="E">E</button>
+    <button class="key" value="R">R</button>
+    <button class="key" value="T">T</button>
+    <button class="key" value="Y">Y</button>
+    <button class="key" value="U">U</button>
+    <button class="key" value="I">I</button>
+    <button class="key" value="O">O</button>
+    <button class="key" value="P">P</button>
+  </div>
+  <div class="keyboard-row">
+    <button class="key" value="A">A</button>
+    <button class="key" value="S">S</button>
+    <button class="key" value="D">D</button>
+    <button class="key" value="F">F</button>
+    <button class="key" value="G">G</button>
+    <button class="key" value="H">H</button>
+    <button class="key" value="J">J</button>
+    <button class="key" value="K">K</button>
+    <button class="key" value="L">L</button>
+  </div>
+  <div class="keyboard-row">
+    <button class="key" value="Z">Z</button>
+    <button class="key" value="X">X</button>
+    <button class="key" value="C">C</button>
+    <button class="key" value="V">V</button>
+    <button class="key" value="B">B</button>
+    <button class="key" value="N">N</button>
+    <button class="key" value="M">M</button>
+  </div>
+  <div class="keyboard-row">
+    <button class="key wide">Espacio</button>
+  </div>
+</div>
+
+    
       
     <div id="resultado"></div>
 
@@ -170,14 +178,60 @@
       </script>
 
       <script>
-        const botonModal = document.getElementById('mostrar-modal');
-        const modalteclado = document.querySelector('.modalteclado');
+        const openKeyboardButton = document.getElementById("open-keyboard");
+        const openKeyboardButton2 = document.getElementById("open-keyboard2");
+        const closeKeyboardButton = document.getElementById("close-keyboard");
+        const keyboard = document.getElementById("keyboard");
+        const input = document.getElementById("input1");
+        
+        openKeyboardButton.addEventListener("click", () => {
+          keyboard.style.display = "block";
+        });
+        
+        closeKeyboardButton.addEventListener("click", () => {
+          keyboard.style.display = "none";
+        });
 
-  botonModal.addEventListener('click', function() {
-  modalteclado.classList.add('mostrar');
+
+        openKeyboardButton2.addEventListener("click", () => {
+          keyboard.style.display = "block";
+        });
+        
+        // Move the keyboard
+        let isDragging = false;
+        let offset = {x: 0, y: 0};
+        let previousPosition = {x: 0, y: 0};
+        
+        keyboard.addEventListener("mousedown", (event) => {
+          isDragging = true;
+          offset = {x: event.offsetX, y: event.offsetY};
+          previousPosition = {x: event.clientX, y: event.clientY};
+        });
+        
+        keyboard.addEventListener("mousemove", (event) => {
+          if (isDragging) {
+            const diffX = event.clientX - previousPosition.x;
+            const diffY = event.clientY - previousPosition.y;
+            const newX = keyboard.offsetLeft + diffX;
+            const newY = keyboard.offsetTop + diffY;
+            keyboard.style.left = `${newX}px`;
+            keyboard.style.top = `${newY}px`;
+            previousPosition = {x: event.clientX, y: event.clientY};
+          }
+        });
+        
+        keyboard.addEventListener("mouseup", () => {
+          isDragging = false;
+        });
+        
+        const keys = keyboard.querySelectorAll(".key");
+        keys.forEach((key) => {
+        key.addEventListener("click", () => {
+        input.value += key.value;
+  });
 });
 
-
+        
       </script>
       <script>
 

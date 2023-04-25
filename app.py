@@ -68,9 +68,6 @@ def auth():
 
 
 
-
-    
-
 #Ruta de inicio
 
 @app.route('/', methods=['GET', 'POST'])

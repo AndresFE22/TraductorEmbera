@@ -106,7 +106,7 @@ def index():
             palabra = (varidioma,)
             cursor.execute(consulta, palabra)
             data = cursor.fetchall()
-            cursor.close()
+            cursor.close()  
             conn.close()
             
             # Construir una cadena de texto amigable para el usuario final
@@ -116,32 +116,16 @@ def index():
             
             return jsonify(output)
         
-        elif idiom1 == '2' and idiom2 == '2':
-            consulta = "SELECT wayuu FROM palabras WHERE wayuu = %s"
-            palabra = (varidioma,)
-            cursor.execute(consulta, palabra)
-            data = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            
-            # Construir una cadena de texto amigable para el usuario final
-            output = ''
-            for palabra in data:
-                output += palabra[0] + ' '
-            
-            return jsonify(output)
         
         #Consulta de diferentes idioma      
         
         elif idiom1 == '0' and idiom2 == '1':
-            consulta = "SELECT embera FROM palabras WHERE español = %s"
+            consulta = "SELECT wayuu FROM palabras WHERE español = %s"
             palabra = (varidioma,)
             cursor.execute(consulta, palabra)     
             data = cursor.fetchall()
             cursor.close()
             conn.close()
-            
-            
             
             # Construir una cadena de texto amigable para el usuario final
             output = ''
@@ -151,37 +135,6 @@ def index():
             return jsonify(output)
         
         elif idiom1 == '1' and idiom2 == '0':
-            consulta = "SELECT español FROM palabras WHERE embera = %s"
-            palabra = (varidioma,)
-            cursor.execute(consulta, palabra)     
-            data = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            
-            # Construir una cadena de texto amigable para el usuario final
-            output = ''
-            for palabra in data:
-                output += palabra[0] + ' '
-                
-            return jsonify(output)
-        
-        elif idiom1 == '0' and idiom2 == '2':
-            consulta = "SELECT wayuu FROM palabras WHERE español = %s"
-            palabra = (varidioma,)
-            cursor.execute(consulta, palabra)     
-            data = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            
-            
-            # Construir una cadena de texto amigable para el usuario final
-            output = ''
-            for palabra in data:
-                output += palabra[0] + ' '
-                
-            return jsonify(output)
-        
-        elif idiom1 == '2' and idiom2 == '0':
             consulta = "SELECT español FROM palabras WHERE wayuu = %s"
             palabra = (varidioma,)
             cursor.execute(consulta, palabra)     
@@ -194,41 +147,7 @@ def index():
             for palabra in data:
                 output += palabra[0] + ' '
                 
-            return jsonify(output)
-        
-        elif idiom1 == '2' and idiom2 == '1':
-            consulta = "SELECT embera FROM palabras WHERE wayuu = %s"
-            palabra = (varidioma,)
-            cursor.execute(consulta, palabra)     
-            data = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            
-            # Construir una cadena de texto amigable para el usuario final
-            output = ''
-            for palabra in data:
-                output += palabra[0] + ' '
-                
-            return jsonify(output)
-        
-        elif idiom1 == '1' and idiom2 == '2':
-            consulta = "SELECT wayuu FROM palabras WHERE embera = %s"
-            palabra = (varidioma,)
-            cursor.execute(consulta, palabra)     
-            data = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            
-            # Construir una cadena de texto amigable para el usuario final
-            output = ''
-            for palabra in data:
-                output += palabra[0] + ' '
-                
-            return jsonify(output)
-            
-            
-            
-            
+            return jsonify(output)     
     else:
     
         return render_template('index.html', traduccion="")
@@ -254,7 +173,6 @@ def introducir():
     if request.method == 'POST':
 
         español = request.form['español']
-        embera = request.form['embera']
         wayuu = request.form['wayuu']
        # resultado = "Texto traducido" # Aquí debería estar el resultado de la traducción
     
@@ -263,8 +181,8 @@ def introducir():
         cursor = cnx.cursor()
 
         # Creación de la consulta para insertar la traducción en la base de datos
-        query = "INSERT INTO palabras (español, embera, wayuu) VALUES (%s, %s, %s)"
-        data = (español, embera, wayuu)
+        query = "INSERT INTO palabras (español, wayuu) VALUES (%s, %s)"
+        data = (español, wayuu)
         
         cursor.execute("SELECT * FROM palabras")
         resultado = cursor.fetchall()
@@ -279,38 +197,13 @@ def introducir():
         
         #Mostrar mensaje de éxito 
         
-        msge = f"{español}', '{embera}' guardadas correctamente"
+        msge = f"{español}', '{wayuu}' guardadas correctamente"
         
         
         return render_template('historial.html', showModal=True, msge=msge, resultado=resultado)
     else:
         return render_template('historial.html', showModal=False)
     
-
-
-
-@app.route('/eliminar/<int:id>', methods=['POST'])
-def eliminar_palabra(id):
-    cnx = mysql.connector.connect(user='root', password='', host='localhost', database='traductor')
-    cursor = cnx.cursor()
-
-    # Creación de la consulta para eliminar la palabra de la base de datos
-    query = "DELETE FROM palabras WHERE id = %s"
-    data = (id,)
-
-    # Ejecución de la consulta y commit de la transacción
-    cursor.execute(query, data)
-    cnx.commit()
-
-    # Cierre del cursor y la conexión
-    cursor.close()
-    cnx.close()       
-    
-    return render_template('historial.html')
-
-
-
-
 
 
 @app.route('/table', methods=['POST'])
@@ -326,3 +219,4 @@ def table():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

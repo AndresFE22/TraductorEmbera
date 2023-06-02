@@ -20,20 +20,14 @@
                   <h2>Introducir palabras</h2>
                   <br>
               </div>
-       
             <div class="places">
               <div class="input">                
                 <input type="text" name="español" placeholder="Agregue palabra en español" required>
               </div>
               <div class="input">
-                <input type="text" name="embera" placeholder="Agregue palabra en embera" required>
-              </div>
-              <div class="input">
                 <input type="text" name="wayuu" placeholder="Agregue palabra en wayuunaiky"required>
                 </div>
             </div>
-
-
               <br>
               <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">                                   
@@ -54,49 +48,30 @@
                   <button type="submit">Guardar</button>
               </div>
             </form>
-               
               </div>      
-    
             </div>
-
-      <form action="/eliminar/{{ resultado[3] }}" method="post">
-
         <div class="tables">
-
           <table id="resultado">
             <thead>
               <tr>
                 <th>Español</th>
-                <th>Embera</th>
                 <th>Wayuu</th>
-    
               </tr>
             </thead>
             <tbody>
               {% for resultado in resultado %}
               <tr>
                   <td>{{ resultado[0] }}</td>
-                  <td>{{ resultado[1] }}</td>
                   <td>{{ resultado[2] }}</td>
                  <!-- <td>
                      <button type="submit">Eliminar</button>
                   </td> --> 
-  
               </tr>
               {% endfor %}
           </tbody>
           </table>
-  
-        
-  
-        </div>
-
-      </form>
-
-  
-      
+        </div> 
     </div>
-   
     {% if showModal %}
     <script>
         $(document).ready(function() {
@@ -107,10 +82,7 @@
               $('#successModal').modal('hide');
             }, 1000);
           });
-
     </script>
     {% endif %}
-
-<script></script>
 </body>
 </html>
